@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Request Monitor Options</title>
+    <style>
+        .header {
+            text-align: center;
+        }
+
+        .main-body {
+            width: 50%;
+            background-color: #eee;
+        }
+
+        .save-msg {
+            display: none;
+            color: green;
+            font-weight: bold;
+        }
+
+        .row {
+            width: 100%;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="header">配置</h1>
+    <hr />
+    <div class="main-body">
+        <div class="row">
+            <input id="input-save" type="button" value="保存" />
+            &nbsp;&nbsp;
+            <span class="save-msg">√ 保存成功</span>
+        </div>
+        <div class="row">
+            <label for="input-proxy-server">代理服务：</label>
+            <div>
+                <input id="input-proxy-server" placeholder="127.0.0.1" type="text" value="127.0.0.1" />
+                <input id="input-proxy-port" placeholder="1080" type="number" value="1080" />
+            </div>
+        </div>
+        <div class="row">
+            <label for="textarea-server-list">服务列表：</label>
+            <textarea id="textarea-server-list" cols="48" rows="10" placeholder="服务列表，一行一条"></textarea>
+        </div>
+        <div class="row">
+            <label for="textarea-server-list">文件导入：</label>
+            <input id="input-file-import" type="file" />
+        </div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+
+</html>

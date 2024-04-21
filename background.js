@@ -31,6 +31,30 @@ function updateBadgeText() {
   chrome.action.setBadgeText({ text: tabRequests.length.toString() })
 }
 
+function throttle(func, delay) {
+  let lastCall = 0
+  return function () {
+    const now = Date.now()
+    if (now - lastCall < delay) {
+      return
+    }
+    lastCall = now
+    return func.apply(this, arguments)
+  }
+}
+
+function debounce(func, delay) {
+  let timerId
+  return function () {
+    const context = this
+    const args = arguments
+    clearTimeout(timerId)
+    timerId = setTimeout(() => {
+      func.apply(context, args)
+    }, delay)
+  }
+}
+
 function requestProxy() {
   const keys = ['inputProxyServer', "inputProxyPort", "textareaServerList", "inputFileImport"]
   chrome.storage.local.get(keys, function (result) {
@@ -77,37 +101,13 @@ function requestProxy() {
     console.log("request with proxy...", config)
     chrome.proxy.settings.set({ value: config, scope: 'regular' }, () => {
       if (currentTabId) {
-        debounce(() => chrome.tabs.reload(currentTabId), 50)
+        debounce(() => chrome.tabs.reload(currentTabId), 100)
       }
     })
   })
 }
 
 requestProxy()
-
-function throttle(func, delay) {
-  let lastCall = 0
-  return function () {
-    const now = Date.now()
-    if (now - lastCall < delay) {
-      return
-    }
-    lastCall = now
-    return func.apply(this, arguments)
-  }
-}
-
-function debounce(func, delay) {
-  let timerId
-  return function () {
-    const context = this
-    const args = arguments
-    clearTimeout(timerId)
-    timerId = setTimeout(() => {
-      func.apply(context, args)
-    }, delay)
-  }
-}
 
 function handleErrorRequest(details) {
   const { tabId, url, error, fromCache } = details
@@ -116,8 +116,8 @@ function handleErrorRequest(details) {
     let include = abnormalRequests.some(iii => iii.hostname === hostname && iii.tabId === tabId)
     if (!include) {
       abnormalRequests.push({ tabId, hostname, error })
+      requestProxy()
     }
-    requestProxy()
     updateBadgeText()
   }
 }

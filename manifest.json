@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Auto Proxy",
+  "name": "Request Monitor",
   "version": "1.0",
-  "description": "Auto Proxy",
+  "description": "Monitor abnormal network requests",
   "permissions": [
     "webRequest",
     "proxy",

@@ -6,6 +6,8 @@ const inputProxyPort = document.querySelector('#input-proxy-port')
 const textareaServerList = document.querySelector('#textarea-server-list')
 // input-file-import
 const inputFileImport = document.querySelector('#input-file-import')
+// proxy-server-count
+const proxyServerCount = document.querySelector('.proxy-server-count')
 
 function getOptions() {
     const keys = ['inputProxyServer', "inputProxyPort", "textareaServerList", "inputFileImport"]
@@ -14,7 +16,9 @@ function getOptions() {
         inputProxyServer.value = result['inputProxyServer'] || '127.0.0.1'
         inputProxyPort.value = result['inputProxyPort'] || 1080
         textareaServerList.value = result['textareaServerList'] || ''
-        inputFileImport.value = result['inputFileImport']
+        inputFileImport.value = result['inputFileImport'] || null
+
+        proxyServerCount.innerHTML = `${(result['textareaServerList'] || '').split('\n').length || 0} 条`
     })
 }
 

@@ -6,6 +6,12 @@ function renderRequestsTable(requests) {
     const row = table.insertRow()
     row.insertCell().textContent = request.hostname
   })
+
+  if (requests.length > 0) {
+    document.querySelector('.header').innerHTML = '异常请求'
+  } else {
+    document.querySelector('.header').innerHTML = '一切正常'
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

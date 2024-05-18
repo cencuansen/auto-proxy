@@ -16,9 +16,8 @@ function renderRequestsTable(requests) {
 
 document.addEventListener('DOMContentLoaded', () => {
   chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-    const currentTabId = tabs[0].id
-    chrome.runtime.sendMessage({ action: 'getAbnormalRequests', tabId: currentTabId }, (abnormalRequests) => {
-      renderRequestsTable(abnormalRequests)
+    chrome.runtime.sendMessage({ action: 'getbadRequests', tabId: tabs[0].id }, (response) => {
+      renderRequestsTable(response)
     })
   })
 })

@@ -1,10 +1,13 @@
 function renderRequestsTable(requests) {
-  const table = document.getElementById('requests-table')
-  table.innerHTML = ''
+  const container = document.getElementById('container')
 
   requests.forEach(request => {
-    const row = table.insertRow()
-    row.insertCell().textContent = request.hostname
+    let div = document.createElement('div')
+    div.classList.add('item')
+    let input = document.createElement('input')
+    input.value = request.hostname
+    div.appendChild(input)
+    container.appendChild(div)
   })
 
   if (requests.length > 0) {

@@ -2,12 +2,16 @@ function renderRequestsTable(requests) {
   const container = document.getElementById('container')
 
   requests.forEach(request => {
-    let div = document.createElement('div')
-    div.classList.add('item')
-    let input = document.createElement('input')
-    input.value = request.hostname
-    div.appendChild(input)
-    container.appendChild(div)
+    let dp = new DOMParser()
+    let text =
+      `
+        <div class='item'>
+          <div class='col col1'><input value='${request.hostname}' /></div>
+          <div class='col col2'><input value='${request.error}' /></div>
+        </div>
+      `
+    let dom = dp.parseFromString(text, 'text/html')
+    container.appendChild(dom.body.firstChild)
   })
 
   if (requests.length > 0) {
@@ -24,3 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 })
+
+setInterval(() => {
+  chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+    chrome.runtime.sendMessage({ action: 'updateBadge', tabId: tabs[0].id }, (response) => { })
+  })
+}, 1000)
